@@ -35,7 +35,7 @@ impts_undist = np.float32([
     [1271.5339 ,  154.91203],
     [1250.6611 ,  260.52057]]).reshape((-1, 1, 2))
 
-print(cv.undistortImagePoints(impts, K, dc))
+# print(cv.undistortImagePoints(impts, K, dc))
 
 H = cv.getPerspectiveTransform(impts_undist, modelpts)
 
@@ -47,3 +47,4 @@ Tscale = np.array([
 
 topdown = cv.warpPerspective(impts_undist, H, dsize=(90*15, 60*15))
 
+print(topdown)
