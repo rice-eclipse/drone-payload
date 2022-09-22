@@ -1,8 +1,11 @@
+from ctypes.wintypes import HACCEL
 import cv2 as cv
 import numpy as np
+import matplotlib.pyplot as plt
 
 im = cv.imread("distortion_test_soccer_field_image.png")
 (height, width) = im.shape[:2]
+(h, w) = (height, width)
 assert (width, height) == (1280, 720), "or whatever else"
 
 K = np.eye(3)
@@ -22,18 +25,25 @@ modelpts = np.float32([
     [90., 60.],
     [45., 60.]]) * 15 # 15 pixels per foot
 
+# impts = [
+#  [511.54881, 184.64497],
+#  [758.16124, 141.19525],
+#  [1159.37185, 191.21864],
+#  [1153.4168, 276.2696]
+# ]
+
 impts = [
- [511.54881, 184.64497],
- [758.16124, 141.19525],
- [1159.37185, 191.21864],
- [1153.4168, 276.2696]
+    [1,356],
+    [81,799],
+    [769,212],
+    [1273,235]
 ]
 
-impts_undist = np.float32([
-    [ 508.38733,  180.3246 ],
-    [ 762.08234,  133.98148],
-    [1271.5339 ,  154.91203],
-    [1250.6611 ,  260.52057]]).reshape((-1, 1, 2))
+impts_undist = np.float32(
+        [[0,0],[0,h],[w,h],[w,0]]
+    ).reshape((-1, 1, 2))
+
+print(impts_undist.shape)
 
 # print(cv.undistortImagePoints(impts, K, dc))
 
@@ -45,6 +55,12 @@ Tscale = np.array([
     [  0.,   1.,  25.],
     [  0.,   0.,   1.]])
 
-topdown = cv.warpPerspective(impts_undist, H, dsize=(90*15, 60*15))
+topdown = cv.warpPerspective(impts_undist, H, dsize=(1200, 1300))
 
-print(topdown)
+# print(topdown.shape)
+# cv.imshow('Source_image', H)
+# cv.waitKey(0)
+
+plt.subplot(121),plt.imshow(im),plt.title('Input')
+plt.subplot(122),plt.imshow(H),plt.title('Output')
+plt.show()
