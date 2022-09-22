@@ -8,6 +8,8 @@ im = cv.imread("distortion_test_soccer_field_image.png")
 (h, w) = (height, width)
 assert (width, height) == (1280, 720), "or whatever else"
 
+#cv.imshow('test2', im)
+
 K = np.eye(3)
 K[0,0] = K[1,1] = 1000 # 500-5000 is common
 K[0:2, 2] = (width-1)/2, (height-1)/2
@@ -15,7 +17,7 @@ K[0:2, 2] = (width-1)/2, (height-1)/2
 #        [   0. , 1000. ,  359.5],
 #        [   0. ,    0. ,    1. ]])
 
-print(K)
+#print(K)
 
 dc = np.float32([-0.54,  0.28,  0.  ,  0.  ,  0.  ]) # k1, k2, p1, p2, k3
 
