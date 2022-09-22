@@ -11,10 +11,17 @@ w = 1200
 
 
 # 4 Points on Original Image
-pt1 = np.float32([[1,356],[1273,235],[769,212], [81,799]])
+pt1 = np.float32([[511.54881, 184.64497],
+ [758.16124, 141.19525],
+ [1159.37185, 191.21864],
+ [1153.4168, 276.2696]])
 
 # 4 Corresponding Points of Desired Bird Eye View Image
-pt2 = np.float32([[0,0],[0,h],[w,h],[w,0]])
+pt2 = np.float32([
+    [ 508.38733,  180.3246 ],
+    [ 762.08234,  133.98148],
+    [1271.5339 ,  154.91203],
+    [1250.6611 ,  260.52057]])
 
 
 matrix = cv.getPerspectiveTransform(pt1, pt2)
