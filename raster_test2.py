@@ -30,6 +30,7 @@ output = cv.warpPerspective(img,matrix,(w,h))
 
 for i in range(0,4):
     cv.circle(img,(int(pt1[i][0]),int(pt1[i][1])),5,(0,0,255),cv.FILLED)
+    cv.circle(output, (int(pt1[i][0]),int(pt1[i][1])),5,(0,0,255),cv.FILLED)
 
 # window1 = cv.namedWindow("w1")
 # cv.imshow(window1,img)
