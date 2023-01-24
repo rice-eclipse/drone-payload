@@ -36,8 +36,9 @@ dw.writeheader()
 full_data = []
 
 for i in range(20):
+    print("Taking photo")
     result = subprocess.run(['libcamera-still', '--autofocus', '-o', '../photos/test{i}.png'])
-    print(result.stdout[:10])
+    print("Subprocess Complete")
     data = {}
     data['Global Location'] = vehicle.location.global_frame
     data['Local Location'] = vehicle.location.local_frame
@@ -46,5 +47,6 @@ for i in range(20):
     data['GPS'] = vehicle.gps_0
     data['Heading'] = vehicle.heading
     dw.writerow(data)
+    print('Row written')
         
 datafile.close()
