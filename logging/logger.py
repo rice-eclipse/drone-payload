@@ -1,4 +1,5 @@
 from dronekit import connect
+import subprocess
 import os
 import csv
 
@@ -35,7 +36,8 @@ dw.writeheader()
 full_data = []
 
 for i in range(20):
-    os.system('libcamera-still --autofocus -o ../photos/test{i}.png')
+    result = subprocess.run(['libcamera-still --autofocus -o ../photos/test{i}.png'])
+    print(result.stdout[:10])
     data = {}
     data['Global Location'] = vehicle.location.global_frame
     data['Local Location'] = vehicle.location.local_frame
