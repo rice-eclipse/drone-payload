@@ -36,7 +36,7 @@ dw.writeheader()
 full_data = []
 
 for i in range(20):
-    result = subprocess.run(['libcamera-still --autofocus -o ../photos/test{i}.png'])
+    result = subprocess.run(['libcamera-still', '--autofocus', '-o', '../photos/test{i}.png'])
     print(result.stdout[:10])
     data = {}
     data['Global Location'] = vehicle.location.global_frame
