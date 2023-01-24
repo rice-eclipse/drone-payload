@@ -1,7 +1,10 @@
 from dronekit import connect
+import os
+import csv
 
 vehicle = connect('/dev/ttyS0', wait_ready=True, baud=57600)
 
+print("Vehicle connected!")
 print("Autopilot Firmware version: %s" % vehicle.version)
 print("Autopilot capabilities (supports ftp): %s" % vehicle.capabilities.ftp)
 print("Global Location: %s" % vehicle.location.global_frame)
@@ -24,3 +27,22 @@ print ("Is Armable?: %s" % vehicle.is_armable)
 print ("System status: %s" % vehicle.system_status.state)
 print ("Mode: %s" % vehicle.mode.name)    # settable
 print ("Armed: %s" % vehicle.armed)    # settable
+
+datafile = open("../data.csv", "w")
+fieldnames = ['Global Location', 'Local Location', 'Attitude', 'Velocity', 'GPS', 'Heading']
+dw = csv.DictWriter(datafile, fieldnames=fieldnames)
+dw.writeheader()
+full_data = []
+
+for i in range(20):
+    os.system('libcamera-still --autofocus -o ../photos/test{i}.png')
+    data = {}
+    data['Global Location'] = vehicle.location.global_frame
+    data['Local Location'] = vehicle.location.local_frame
+    data['Attitude'] = vehicle.attitude
+    data['Velocity'] = vehicle.velocity
+    data['GPS'] = vehicle.gps_0
+    data['Heading'] = vehicle.heading
+    dw.writerow(data)
+        
+datafile.close()
