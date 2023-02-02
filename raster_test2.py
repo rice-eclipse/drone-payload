@@ -18,9 +18,9 @@ pt1 = np.float32([[190, 250],
 
 # 4 Corresponding Points of Desired Bird Eye View Image
 pt2 = np.float32([
-    [ 100 ,  600],
-    [ 100,  100],
-    [1000,  600],
+    [ 200 ,  700],
+    [ 200,  100],
+    [1000,  700],
     [1000 ,  100]])
 
 
