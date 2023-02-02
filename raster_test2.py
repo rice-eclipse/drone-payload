@@ -11,17 +11,17 @@ w = 1200
 
 
 # 4 Points on Original Image
-pt1 = np.float32([[511.54881, 184.64497],
- [758.16124, 141.19525],
- [1159.37185, 191.21864],
- [1153.4168, 276.2696]])
+pt1 = np.float32([[190, 250],
+ [760, 144],
+ [1170, 655],
+ [1250, 190]])
 
 # 4 Corresponding Points of Desired Bird Eye View Image
 pt2 = np.float32([
-    [ 508.38733,  180.3246 ],
-    [ 762.08234,  133.98148],
-    [1271.5339 ,  154.91203],
-    [1250.6611 ,  260.52057]])
+    [ 100 ,  600],
+    [ 100,  100],
+    [1000,  600],
+    [1000 ,  100]])
 
 
 matrix = cv.getPerspectiveTransform(pt1, pt2)
@@ -29,8 +29,10 @@ print(matrix)
 output = cv.warpPerspective(img,matrix,(w,h))
 
 for i in range(0,4):
-    cv.circle(img,(int(pt1[i][0]),int(pt1[i][1])),5,(0,0,255),cv.FILLED)
-    cv.circle(output, (int(pt1[i][0]),int(pt1[i][1])),5,(0,0,255),cv.FILLED)
+    cv.circle(img,(int(pt1[i][0]),int(pt1[i][1])),10,(0,0,255),cv.FILLED)
+    cv.putText(img, str(i), (int(pt1[i][0])+10,int(pt1[i][1])+10), cv.FONT_HERSHEY_SIMPLEX, 3, (255,255,255), thickness=5)
+    cv.circle(output, (int(pt2[i][0]),int(pt2[i][1])),10,(0,0,255),cv.FILLED)
+    cv.putText(output, str(i), (int(pt2[i][0])+10,int(pt2[i][1])+10), cv.FONT_HERSHEY_SIMPLEX, 3, (255,255,255), thickness=5)
 
 # window1 = cv.namedWindow("w1")
 # cv.imshow(window1,img)
