@@ -20,6 +20,7 @@ GPIO.setup(INPUT_PIN2, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
 #connects to the vehicle
 vehicle = connect(ADDRESS, wait_ready=True, baud=57600)
+
 def signal_detection():
     
     # loops continuously
@@ -37,6 +38,7 @@ def signal_detection():
     
     return
 
-if __name__ == "main":
+if __name__ == "__main__":
+    print("lol")
     signal_detection()
-    
+    print("l1ol")
