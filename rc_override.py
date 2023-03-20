@@ -10,8 +10,8 @@ SIGNAL_OFF = 1700
 
 #Pins connected to switches
 #TODO
-INPUT_PIN1 = 3
-INPUT_PIN2 = 5
+INPUT_PIN1 = 26
+INPUT_PIN2 = 16
 
 #sets up the pins connected to the switches
 GPIO.setup(INPUT_PIN1, GPIO.IN, pullup_up_down=GPIO.PUD_UP)
