@@ -14,8 +14,8 @@ INPUT_PIN1 = 3
 INPUT_PIN2 = 5
 
 #sets up the pins connected to the switches
-GPIO.setup(INPUT_PIN1, GPIO.IN)
-GPIO.setup(INPUT_PIN2, GPIO.IN)
+GPIO.setup(INPUT_PIN1, GPIO.IN, pullup_up_down=GPIO.PUD_UP)
+GPIO.setup(INPUT_PIN2, GPIO.IN, pullup_up_down=GPIO.PUD_UP)
 
 #connects to the vehicle
 vehicle = connect(ADDRESS, wait_ready=True, baud=57600)
