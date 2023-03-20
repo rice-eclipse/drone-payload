@@ -28,12 +28,12 @@ def signal_detection():
 
         #sends the 1200Hz signal to channel 7 if either of the switches are on
         if (GPIO.input(INPUT_PIN1) or GPIO.input(INPUT_PIN2)):
-            vehicle.channels.overrides = {'7', SIGNAL_ON}
+            vehicle.channels.overrides = {'7': SIGNAL_ON}
             print("Signal high")
 
         # sends the 1700Hz signal to channel switches if both switches are off
         else:
-            vehicle.channels.overrides = {'7', SIGNAL_OFF}
+            vehicle.channels.overrides = {'7': SIGNAL_OFF}
             print("Signal low")
     
     return
