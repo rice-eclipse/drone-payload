@@ -1,5 +1,6 @@
 import RPi.GPIO as GPIO
 from dronekit import connect
+import time
 
 #Vehicle's address
 ADDRESS = '/dev/ttyS0'
@@ -35,6 +36,8 @@ def signal_detection():
         else:
             vehicle.channels.overrides = {'7': SIGNAL_OFF}
             print("Signal low")
+
+        time.sleep(2)   
     
     return
 
