@@ -14,6 +14,7 @@ INPUT_PIN1 = 26
 INPUT_PIN2 = 16
 
 #sets up the pins connected to the switches
+GPIO.setmode(GPIO.BCM)
 GPIO.setup(INPUT_PIN1, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 GPIO.setup(INPUT_PIN2, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
