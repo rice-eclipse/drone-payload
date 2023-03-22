@@ -12,7 +12,7 @@ SIGNAL_OFF = 1700
 #Pins connected to switches
 #TODO
 INPUT_PIN1 = 26
-INPUT_PIN2 = 16
+INPUT_PIN2 = 21
 
 #sets up the pins connected to the switches
 GPIO.setmode(GPIO.BCM)
