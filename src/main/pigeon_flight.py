@@ -1,5 +1,3 @@
-import logging
-import signal_mgmt
 import time
 import sys
 import subprocess
@@ -7,6 +5,9 @@ import random
 import os
 
 sys.append("../lib")
+
+import logging
+import signal_mgmt
 
 
 if __name__ == "__main__":

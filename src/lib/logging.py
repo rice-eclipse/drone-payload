@@ -1,11 +1,7 @@
 import config_vars
 import csv
 import os
-import sys
 from typing import List, Dict, Any
-
-sys.path.append("../main")
-
 
 def get_vehicle_fields(vehicle):
     '''

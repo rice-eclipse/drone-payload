@@ -1,9 +1,5 @@
 import RPi.GPIO as GPIO
 import dronekit
-import sys
-
-sys.path.append("../main")
-
 import config_vars
 
 def init_vehicle() -> dronekit.Vehicle:
