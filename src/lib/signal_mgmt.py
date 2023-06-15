@@ -6,7 +6,11 @@ sys.path.append("../main")
 
 import config_vars
 
-def init_vehicle():
+def init_vehicle() -> dronekit.Vehicle:
+    '''
+    Connects to the vehicle and returns the vehicle object
+    Initializes Raspberry Pi pins that connect to the Pixhawk
+    '''
     #sets up the pins connected to the switches
     GPIO.setmode(GPIO.BCM)
     GPIO.setup(config_vars.INPUT_PIN1, GPIO.IN, pull_up_down=GPIO.PUD_UP)
