@@ -4,6 +4,7 @@ import cv2
 
 import config_vars
 
+
 def chessboard_images(n_samples: int):
     points, imgs = [], []
     for img_idx in range(n_samples):
@@ -12,7 +13,8 @@ def chessboard_images(n_samples: int):
         camera_process = subprocess.Popen(["libcamera-still", "-o", filename])
         camera_process.wait()
         img = cv2.cvtColor(cv2.imread(filename), cv2.COLOR_BGR2GRAY)
-        found, corners = cv2.findChessboardCorners(img, config_vars.CHESSBOARD_DIMS, None)
+        found, corners = cv2.findChessboardCorners(
+            img, config_vars.CHESSBOARD_DIMS, None)
         if not found:
             img_idx -= 1
             continue

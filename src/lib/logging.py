@@ -3,6 +3,7 @@ import csv
 import os
 from typing import List, Dict, Any
 
+
 def get_vehicle_fields(vehicle):
     '''
     Gets the relevant vehicle fields for logging

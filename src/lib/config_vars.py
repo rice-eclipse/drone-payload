@@ -13,5 +13,6 @@ INPUT_PIN2 = 21
 LOGGING_FIELD_NAMES = ['Global Location', 'Local Location',
                        'Attitude', 'Velocity', 'GPS', 'Heading']
 
-ROI_SCALING = 0.5 # 0 is very relaxed, retaining all pixels. 1 will occlude all unwanted pixels
+# 0 is very relaxed, retaining all pixels. 1 will occlude all unwanted pixels
+ROI_SCALING = 0.5
 CHESSBOARD_DIMS = (7, 7)
