@@ -1,39 +1,42 @@
-import signal_mgmt
-import logging
 import time
 import sys
-import subprocess
 import random
 import os
+import subprocess
+from pathlib import Path
 
-sys.append("../lib")
+REPO_TOP = Path(__file__).resolve().parent.parent.parent
+sys.path.append(os.path.join(REPO_TOP, "src/lib"))
 
+import signal_mgmt
+import pix_logging
 
 if __name__ == "__main__":
     vehicle = signal_mgmt.init_vehicle()
 
     seed = random.randint(100_000_000, 999_999_999)
-    img_id = 100_000_000
+    print(f"Seed: {seed}")
+    data_id = 100_000_000
+    photo_started = False
 
-    img_dir = os.getcwd() / f"pigeon_img_{seed}"
-    data_dir = os.getcwd() / f"pigeon_data_{seed}"
-    os.mkdir(img_dir)
+    data_dir = Path(REPO_TOP / f"pigeon_data_{seed}")
     os.mkdir(data_dir)
-
-    # TODO: Replace with camera command, imgdir
-    camera_process = subprocess.Popen(["libcamera-still", "-o"])
-    datalog_file = data_dir / f"{img_id}_log.csv"
     log_data = []
 
+    # Main drone software loop
+    ticks = 0
     while True:
-        signal_mgmt.switch_override(vehicle)
-        log_data.append(logging.get_vehicle_fields(vehicle))
-
-        if camera_process.poll() is not None:
-            logging.save_logs(datalog_file, log_data)
-            img_id += 1
-            camera_process = subprocess.Popen(["libcamera-still", "-o"])
-            datalog_file = data_dir / f"{img_id}_log.csv"
+        datalog_file = data_dir / f"{data_id}_log.csv"
+        if signal_mgmt.switch_override(vehicle) and not photo_started:
+            photo_started = True
+            proc = subprocess.Popen(["python3", str(Path(REPO_TOP, "src/main/photo_script.py")), str(seed)])
+        data = pix_logging.get_vehicle_fields(vehicle)
+        log_data.append(data)
+        ticks += 1
+        if ticks >= 100:
+            print(f"LOGGING --- {data['Time']}")
+            pix_logging.save_logs(datalog_file, log_data)
+            data_id += 1
+            ticks = 0
             log_data = []
-
-        time.sleep(1)
+        time.sleep(0.1)
