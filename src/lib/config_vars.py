@@ -13,9 +13,13 @@ INPUT_PIN2 = 21
 LOGGING_FIELD_NAMES = ['Global Location', 'Local Location',
                        'Attitude', 'Velocity', 'GPS', 'Heading']
 
-# 0 is very relaxed, retaining all pixels. 1 will occlude all unwanted pixels
-ROI_SCALING = 0.5
-CHESSBOARD_DIMS = (7, 7)
+# 0 is very relaxed, retaining black pixels from distortion. 
+# 1 will occlude all unwanted pixels, auto-cropping ROI
+ROI_SCALING = 1
 
-CALIB_CAMERA_DISTANCE_CM = 20
-CHESSBOARD_SQUARE_LENGTH_CM = 2
+CHESSBOARD_DIMS = (7, 7) # Internal corners
+CALIB_CAMERA_DISTANCE_CM = 20 # Distance from the camera to the chessboard (cm)
+CHESSBOARD_SQUARE_LENGTH_CM = 2 # Length of each chessboard square
+
+PX_DISTANCE_EST_SEED = 42
+PX_DISTANCE_EST_TRIALS = 50
