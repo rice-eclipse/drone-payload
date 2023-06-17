@@ -15,6 +15,7 @@ def get_vehicle_fields(vehicle):
     data['Velocity'] = vehicle.velocity
     data['GPS'] = vehicle.gps_0
     data['Heading'] = vehicle.heading
+    data['Altitude'] = vehicle.altitude
     return data
 
 

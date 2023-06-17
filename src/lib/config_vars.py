@@ -16,3 +16,6 @@ LOGGING_FIELD_NAMES = ['Global Location', 'Local Location',
 # 0 is very relaxed, retaining all pixels. 1 will occlude all unwanted pixels
 ROI_SCALING = 0.5
 CHESSBOARD_DIMS = (7, 7)
+
+CALIB_CAMERA_DISTANCE_CM = 20
+CHESSBOARD_SQUARE_LENGTH_CM = 2
