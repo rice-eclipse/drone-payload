@@ -20,8 +20,8 @@ if __name__ == "__main__":
     print(f"Seed: {seed}")
     img_id = 100_000_000
 
-    img_dir = os.getcwd() / f"pigeon_img_{seed}"
-    data_dir = os.getcwd() / f"pigeon_data_{seed}"
+    img_dir = Path(os.getcwd()) / f"pigeon_img_{seed}"
+    data_dir = Path(os.getcwd()) / f"pigeon_data_{seed}"
     os.mkdir(img_dir)
     os.mkdir(data_dir)
 
