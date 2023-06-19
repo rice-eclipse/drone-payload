@@ -15,7 +15,7 @@ INPUT_PIN2 = 21
 
 CHANNEL_NUM = 8
 
-PHOTO_CMD = ["/usr/local/bin/libcamera-still", "--nopreview", "--timeout=2500", "--autofocus", "--flush", "-o"]
+PHOTO_CMD = ["/usr/bin/libcamera-still", "--nopreview", "--timeout=2500", "--autofocus", "--flush", "-o"]
 # Logging field names
 LOGGING_FIELD_NAMES = ['Global Location', 'Local Location',
                        'Attitude', 'Velocity', 'GPS', 'Heading']
