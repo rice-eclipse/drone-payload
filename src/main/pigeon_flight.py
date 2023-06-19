@@ -1,4 +1,3 @@
-import signal_mgmt
 import logging
 import time
 import sys
@@ -9,6 +8,7 @@ import os
 sys.append("../lib")
 
 import config_vars
+import signal_mgmt
 
 if __name__ == "__main__":
     vehicle = signal_mgmt.init_vehicle()
