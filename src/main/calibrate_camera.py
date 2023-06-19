@@ -6,16 +6,17 @@ https://docs.opencv.org/3.3.0/dc/dbb/tutorial_py_calibration.html
 Authors: Ian Rundle, Yumn Teshome
 '''
 
-import capturing
 import sys
 import os
 from typing import List
 import argparse
 import cv2
-import config_vars
 import numpy as np
 
 sys.path.append("../lib")
+
+import capturing
+import config_vars
 
 
 __description__ = "Calibrates the camera, saves camera mx and distortions to npz."
@@ -31,7 +32,10 @@ def main(cmd_args: List[str]) -> None:
     args = _parse_args(cmd_args)
 
     # Taking the specified number of photos
-    points, objpoints, imgs = capturing.chessboard_images(args.samples)
+    chessboard_imgs = capturing.chessboard_images(args.samples)
+    objpoints = [img.objp for img in chessboard_imgs]
+    points = [img.corners for img in chessboard_imgs]
+    imgs = [img.image for img in chessboard_imgs]
 
     # Generate calibration matrices
     input("Press enter to begin calibration with data :)")

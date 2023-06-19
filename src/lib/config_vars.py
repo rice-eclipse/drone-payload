@@ -1,14 +1,21 @@
+import math
+import numpy as np
+
+
 # Vehicle's address
 ADDRESS = '/dev/ttyS0'
 
 # On and off signal frequencies
 SIGNAL_ON = 1200
-SIGNAL_OFF = 1700
+SIGNAL_OFF = 1600
 
 # Pins connected to switches
 INPUT_PIN1 = 26
 INPUT_PIN2 = 21
 
+CHANNEL_NUM = 8
+
+PHOTO_CMD = ["/usr/local/bin/libcamera-still", "--nopreview", "--timeout=2500", "--autofocus", "--flush", "-o"]
 # Logging field names
 LOGGING_FIELD_NAMES = ['Global Location', 'Local Location',
                        'Attitude', 'Velocity', 'GPS', 'Heading']
@@ -23,3 +30,11 @@ CHESSBOARD_SQUARE_LENGTH_CM = 2 # Length of each chessboard square
 
 PX_DISTANCE_EST_SEED = 42
 PX_DISTANCE_EST_TRIALS = 50
+
+ANGLE_WARP_PHI_CUTOFF = math.pi / 4 # The max angle of elevation view before image is cut off
+
+UNITLESS_CHESSBOARD_COORDS = np.zeros((CHESSBOARD_DIMS[0] * CHESSBOARD_DIMS[1], 3), np.float32)
+UNITLESS_CHESSBOARD_COORDS[:, :2] = np.mgrid[
+        :CHESSBOARD_DIMS[0],
+        :CHESSBOARD_DIMS[1]
+    ].transpose().reshape(-1, 2)

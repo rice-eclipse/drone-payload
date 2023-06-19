@@ -22,13 +22,13 @@ def switch_override(vehicle: dronekit.Vehicle) -> bool:
     Detects the input GPIO limit switch states, overrides ArduPigeon
     channels to begin drone flight if both switches are off (arms open)
     '''
-    # sends the 1200Hz signal to channel 7 if either of the switches are on
+    # sends the 1200Hz signal to channel 8 if either of the switches are on
     if (GPIO.input(config_vars.INPUT_PIN1) or GPIO.input(config_vars.INPUT_PIN2)):
-        vehicle.channels.overrides = {'7': config_vars.SIGNAL_ON}
+        vehicle.channels.overrides = {str(config_vars.CHANNEL_NUM): config_vars.SIGNAL_ON}
         print(f"Signal high (sending signal {config_vars.SIGNAL_ON} Hz)")
         return False  # Drone not unfolded
 
-    # sends the 1700Hz signal to channel switches if both switches are off
-    vehicle.channels.overrides = {'7': config_vars.SIGNAL_OFF}
+    # sends the 1700Hz signal to channel 8 switches if both switches are off
+    vehicle.channels.overrides = {str(config_vars.CHANNEL_NUM): config_vars.SIGNAL_OFF}
     print(f"Signal low (sending signal {config_vars.SIGNAL_OFF} Hz)")
     return True  # Drone Unfolded
