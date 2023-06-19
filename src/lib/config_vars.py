@@ -10,7 +10,7 @@ SIGNAL_ON = 1200
 SIGNAL_OFF = 1600
 
 # Pins connected to switches
-INPUT_PIN1 = 26
+INPUT_PIN1 = 25
 INPUT_PIN2 = 21
 
 CHANNEL_NUM = 8

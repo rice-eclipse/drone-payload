@@ -4,8 +4,11 @@ import sys
 import subprocess
 import random
 import os
+from pathlib import Path
 
-sys.append("../lib")
+REPO_TOP = Path(__file__).resolve().parent.parent.parent
+print(REPO_TOP)
+sys.path.append(os.path.join(REPO_TOP, "src/lib"))
 
 import config_vars
 import signal_mgmt
