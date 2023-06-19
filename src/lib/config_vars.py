@@ -3,7 +3,7 @@ import numpy as np
 
 
 # Vehicle's address
-ADDRESS = '/dev/ttyS0'
+ADDRESS = '/dev/ttyAMA0'
 
 # On and off signal frequencies
 SIGNAL_ON = 1200
