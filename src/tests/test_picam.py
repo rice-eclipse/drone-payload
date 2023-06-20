@@ -14,7 +14,7 @@ picam2.start()
 print("job 1")
 time.sleep(2)
 running = True
-job = picam2.capture_file("test.jpg", wait=False, signal_function=test_sig)
+job = picam2.capture_image("test.jpg", wait=False, signal_function=test_sig)
 while running:
     print("running!")
     time.sleep(0.5)
