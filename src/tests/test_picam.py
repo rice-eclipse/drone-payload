@@ -6,6 +6,7 @@ from picamera2 import Picamera2
 running = False
 def test_sig(future):
     print("----SIGNAL START----")
+    global running
     running = False
     print(f"----SIGNAL END, RUNNING = {running}----")
 
