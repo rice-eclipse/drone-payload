@@ -5,7 +5,7 @@
 
 import time
 import datetime
-
+import libcamera
 from picamera2 import Picamera2
 
 running = False
