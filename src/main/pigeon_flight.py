@@ -41,6 +41,7 @@ if __name__ == "__main__":
             pix_logging.save_logs(datalog_file, log_data)
             img_id += 1
             image_file = img_dir / f"{img_id}_capture.jpg"
+            print("Logs saved")
             metadata, utc_time = camera.get_job_results()
             print(f"UTC TIME OF CAPTURE: {utc_time}")
             print(f"METADATA: {metadata}")
