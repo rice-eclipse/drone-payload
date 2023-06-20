@@ -1,10 +1,5 @@
-#!/usr/bin/python3
-
-# Capture a JPEG while still running in the preview mode. When you
-# capture to a file, the return value is the metadata for that image.
 
 import time
-import datetime
 import libcamera
 from picamera2 import Picamera2
 
@@ -13,7 +8,7 @@ def test_sig(future):
     running = False
 
 picam2 = Picamera2()
-picam2.camera.set_controls({"AfMode": libcamera.controls.AfModeEnum.Continuous})
+picam2.set_controls({"AfMode": libcamera.controls.AfModeEnum.Continuous})
 picam2.start()
 
 print("job 1")
