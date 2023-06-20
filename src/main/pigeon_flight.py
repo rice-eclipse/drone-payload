@@ -12,6 +12,7 @@ sys.path.append(os.path.join(REPO_TOP, "src/lib"))
 import config_vars
 import signal_mgmt
 import pix_logging
+import capturing
 
 if __name__ == "__main__":
     vehicle = signal_mgmt.init_vehicle()
@@ -26,19 +27,26 @@ if __name__ == "__main__":
     os.mkdir(data_dir)
 
     image_file = img_dir / f"{img_id}_capture.jpg"
-    camera_process = subprocess.Popen([*config_vars.PHOTO_CMD, str(image_file)])
+    camera = capturing.Camera()
+    camera.take_photo(image_file)
     datalog_file = data_dir / f"{img_id}_log.csv"
     log_data = []
 
+    # Main drone software loop
     while True:
-
+        
         signal_mgmt.switch_override(vehicle)
         log_data.append(pix_logging.get_vehicle_fields(vehicle))
 
-        if camera_process.poll() is not None:
+        if not camera.proc_running:
+            print(f"\n-------- Camera task {img_id} complete ----------\n")
             pix_logging.save_logs(datalog_file, log_data)
             img_id += 1
-            camera_process = subprocess.Popen([*config_vars.PHOTO_CMD, str(image_file)])
+            image_file = img_dir / f"{img_id}_capture.jpg"
+            metadata, utc_time = camera.get_job_results()
+            print(f"UTC TIME OF CAPTURE: {utc_time}")
+            print(f"METADATA: {metadata}")
+            camera.take_photo(image_file)
             datalog_file = data_dir / f"{img_id}_log.csv"
             log_data = []
 

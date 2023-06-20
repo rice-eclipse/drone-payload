@@ -4,8 +4,11 @@ import cv2
 import numpy as np
 import random
 import math
-from typing import List
-import os
+from typing import List, Dict, Any, Tuple
+import datetime
+import psutil
+import libcamera
+import picamera2
 
 import config_vars
 
@@ -18,7 +21,40 @@ class ChessboardImage:
         self.objp = config_vars.UNITLESS_CHESSBOARD_COORDS
         if not found:
             print("Failed to find points")
-            
+
+class Camera:
+    def __init__(self):
+        self.camera = picamera2.Picamera2()
+        self.camera.set_controls({"AfMode": libcamera.controls.AfModeEnum.Continuous})
+        self.camera.start()
+        self.proc_running = False
+        self._job = None
+        self.boot_utc_micros = int(datetime.datetime.utcfromtimestamp(psutil.boot_time()).timestamp() * 1e6)
+
+    def take_photo(self, path: os.PathLike):
+        '''
+        Retrieves a metadata dictionary from photo taking
+        '''
+        self.proc_running = True
+        self._job = self.camera.capture_file(path, wait=False, signal_function=self._photo_complete)
+    
+    def get_job_results(self):
+        if not self.proc_running:
+            metadata = self._job.get_results()
+            if "SensorTimestamp" in metadata.keys():
+                capture_utc_micros = metadata["SensorTimestamp"] / 1000 + self.boot_utc_micros
+            else:
+                print("Could not find SensorTimestamp in metadata keys")
+                capture_utc_micros = -1
+            return metadata, capture_utc_micros
+        else:
+            raise Exception("Job still running")
+    
+    def close(self):
+        self.camera.close()
+    
+    def _photo_complete(self):
+        self.proc_running = False
 
 def chessboard_images(n_samples: int) -> List[ChessboardImage]:
     result = []
@@ -81,5 +117,4 @@ def calibrate_perspective(chess_image: ChessboardImage) -> List[np.ndarray]:
     print(f"Thetas:\n{thetas}")
     print(f"Phis:\n{phis}")
     return thetas, phis
-
 
