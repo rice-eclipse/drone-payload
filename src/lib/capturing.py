@@ -36,7 +36,7 @@ class Camera:
         Retrieves a metadata dictionary from photo taking
         '''
         self.proc_running = True
-        self._job = self.camera.capture_file(path, wait=False, signal_function=lambda job: {self.proc_running = False})
+        self._job = self.camera.capture_file(path, wait=False, signal_function=lambda job: self._photo_complete(job))
     
     def get_job_results(self):
         if not self.proc_running:
@@ -52,6 +52,9 @@ class Camera:
     
     def close(self):
         self.camera.close()
+    
+    def _photo_complete(self, job):
+        self.proc_running = False
 
 def chessboard_images(n_samples: int) -> List[ChessboardImage]:
     result = []
