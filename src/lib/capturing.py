@@ -38,7 +38,7 @@ class Camera:
         self.proc_running = True
         def no_proc_running():
             self.proc_running = False
-        self._job = self.camera.capture_file(path, wait=False, signal_function=lambda: no_proc_running)
+        self._job = self.camera.capture_file(path, wait=False, signal_function=no_proc_running)
     
     def get_job_results(self):
         if not self.proc_running:
