@@ -40,7 +40,7 @@ class Camera:
     
     def get_job_results(self):
         if not self.proc_running:
-            metadata = self._job.get_results()
+            metadata = self._job.get_result()
             if "SensorTimestamp" in metadata.keys():
                 capture_utc_micros = metadata["SensorTimestamp"] / 1000 + self.boot_utc_micros
             else:
