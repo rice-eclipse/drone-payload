@@ -36,7 +36,9 @@ class Camera:
         Retrieves a metadata dictionary from photo taking
         '''
         self.proc_running = True
-        self._job = self.camera.capture_file(path, wait=False, signal_function=lambda: self.proc_running = False)
+        def no_proc_running():
+            self.proc_running = False
+        self._job = self.camera.capture_file(path, wait=False, signal_function=lambda: no_proc_running)
     
     def get_job_results(self):
         if not self.proc_running:
