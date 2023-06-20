@@ -5,7 +5,9 @@ from picamera2 import Picamera2
 
 running = False
 def test_sig(future):
+    print("----SIGNAL START----")
     running = False
+    print(f"----SIGNAL END, RUNNING = {running}----")
 
 picam2 = Picamera2()
 picam2.set_controls({"AfMode": libcamera.controls.AfModeEnum.Continuous})
