@@ -27,7 +27,7 @@ os.mkdir(time_dir)
 img_id = 100_000_000
 while True:
     time.sleep(3)
-    metadata = picam2.capture_file(photo_dir / ("img_" + str(img_id) + ".png"))
+    metadata = picam2.capture_file(photo_dir / ("img_" + str(img_id) + ".png"), format="png")
     print("Photo captured")
     if "SensorTimestamp" in metadata.keys():
         capture_utc_micros = metadata["SensorTimestamp"] / 1000 + boot_utc_micros
