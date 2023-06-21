@@ -1,4 +1,5 @@
 import time
+import os
 
 from libcamera import controls
 
@@ -42,6 +43,8 @@ for _ in range(5):
         print("ERROR: unexpected state", state, "during continuous AF")
     else:
         print("Continuous AF state is", state)
+        if state == controls.AfStateEnum.Failed:
+            print("AAAAAH: Failed")
     # Try "pausing" it.
     picam2.set_controls({'AfPause': controls.AfPauseEnum.Deferred})
     time.sleep(0.2)
@@ -64,7 +67,7 @@ for i in range(10):
         print("ERROR: expected lens position", i, "got", lp)
     print("Try AF cycle from lens position", i)
     result = picam2.autofocus_cycle()
-    state = picam2.capture_metadata()['AfState']
+    state = picam2.capture_file(os.get_cwd() / ("img_" + str(img_id) + ".png"), format="png")['AfState']
     if result and state != controls.AfStateEnum.Focused:
         print("ERROR: AF cycle succeeded but incorrect state", state)
     if not result and state != controls.AfStateEnum.Failed:
