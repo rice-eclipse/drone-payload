@@ -19,7 +19,7 @@ CAPTURE_TIMEOUT_MS = 5000
 
 PHOTO_CMD = ["/usr/bin/libcamera-still", "--nopreview", f"--timeout={CAPTURE_TIMEOUT_MS}", "--autofocus-on-capture", "--flush", "-o"]
 # Logging field names
-LOGGING_FIELD_NAMES = ['Global Location', 'Local Location',
+LOGGING_FIELD_NAMES = ['Time', 'Global Location', 'Local Location',
                        'Attitude', 'Velocity', 'GPS', 'Heading']
 
 # 0 is very relaxed, retaining black pixels from distortion. 
