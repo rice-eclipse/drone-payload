@@ -34,11 +34,12 @@ if __name__ == "__main__":
             photo_started = True
             proc = subprocess.Popen(["python3", str(Path(REPO_TOP, "src/main/photo_script.py")), str(seed)])
         data = pix_logging.get_vehicle_fields(vehicle)
-        data["Time"] = datetime.now().microsecond
+        data["Time"] = datetime.datetime.now().microsecond
         print(data["Time"])
         log_data.append(pix_logging.get_vehicle_fields(vehicle))
         ticks += 1
         if ticks >= 100:
             pix_logging.save_logs(datalog_file, log_data)
             ticks = 0
+            log_data = []
         time.sleep(0.1)
