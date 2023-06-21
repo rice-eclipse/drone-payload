@@ -34,7 +34,7 @@ if __name__ == "__main__":
             photo_started = True
             proc = subprocess.Popen(["python3", str(Path(REPO_TOP, "src/main/photo_script.py")), str(seed)])
         data = pix_logging.get_vehicle_fields(vehicle)
-        data["Time"] = datetime.datetime.now().microsecond
+        data["Time"] = time.time()
         print(data["Time"])
         log_data.append(pix_logging.get_vehicle_fields(vehicle))
         ticks += 1
