@@ -8,7 +8,6 @@ import datetime
 import psutil
 
 REPO_TOP = Path(__file__).resolve().parent.parent.parent
-print(REPO_TOP)
 sys.path.append(os.path.join(REPO_TOP, "src/lib"))
 
 import signal_mgmt
@@ -33,7 +32,7 @@ if __name__ == "__main__":
         datalog_file = data_dir / f"{data_id}_log.csv"
         if signal_mgmt.switch_override(vehicle) and not photo_started:
             photo_started = True
-            proc = subprocess.Popen(["python3", Path.join(REPO_TOP, "src/main/photo_script.py", str(seed))])
+            proc = subprocess.Popen(["python3", str(Path(REPO_TOP, "src/main/photo_script.py")), str(seed)])
         data = pix_logging.get_vehicle_fields(vehicle)
         data["Time"] = datetime.now().microsecond
         print(data["Time"])
