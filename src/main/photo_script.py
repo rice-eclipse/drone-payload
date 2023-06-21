@@ -30,7 +30,7 @@ while True:
     metadata = picam2.capture_file(photo_dir / ("img_" + str(img_id) + ".png"), format="png")
     print("Photo captured")
     if "SensorTimestamp" in metadata.keys():
-        capture_utc_micros = metadata["SensorTimestamp"] / 10000 + boot_utc_micros
+        capture_utc_micros = metadata["SensorTimestamp"] / 100 + boot_utc_micros
         print(f"Capture: {capture_utc_micros}")
     else:
         print("Could not find SensorTimestamp in metadata keys")
