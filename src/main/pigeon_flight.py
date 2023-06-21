@@ -2,7 +2,10 @@ import time
 import sys
 import random
 import os
+import subprocess
 from pathlib import Path
+import datetime
+import psutil
 
 REPO_TOP = Path(__file__).resolve().parent.parent.parent
 print(REPO_TOP)
@@ -17,36 +20,26 @@ if __name__ == "__main__":
 
     seed = random.randint(100_000_000, 999_999_999)
     print(f"Seed: {seed}")
-    img_id = 100_000_000
+    data_id = 100_000_000
+    photo_started = False
 
-    img_dir = Path(os.getcwd()) / f"pigeon_img_{seed}"
     data_dir = Path(os.getcwd()) / f"pigeon_data_{seed}"
-    os.mkdir(img_dir)
     os.mkdir(data_dir)
-
-    image_file = img_dir / f"{img_id}_capture.jpg"
-    camera = capturing.Camera()
-    camera.take_photo(image_file)
-    datalog_file = data_dir / f"{img_id}_log.csv"
     log_data = []
 
     # Main drone software loop
+    ticks = 0
     while True:
-        
-        signal_mgmt.switch_override(vehicle)
+        datalog_file = data_dir / f"{data_id}_log.csv"
+        if signal_mgmt.switch_override(vehicle) and not photo_started:
+            photo_started = True
+            proc = subprocess.Popen(["python3", Path.join(REPO_TOP, "src/main/photo_script.py", str(seed))])
+        data = pix_logging.get_vehicle_fields(vehicle)
+        data["Time"] = datetime.now().microsecond
+        print(data["Time"])
         log_data.append(pix_logging.get_vehicle_fields(vehicle))
-
-        if not camera.proc_running:
-            print(f"\n-------- Camera task {img_id} complete ----------\n")
+        ticks += 1
+        if ticks >= 100:
             pix_logging.save_logs(datalog_file, log_data)
-            img_id += 1
-            image_file = img_dir / f"{img_id}_capture.jpg"
-            print("Logs saved")
-            metadata, utc_time = camera.get_job_results()
-            print(f"UTC TIME OF CAPTURE: {utc_time}")
-            print(f"METADATA: {metadata}")
-            camera.take_photo(image_file)
-            datalog_file = data_dir / f"{img_id}_log.csv"
-            log_data = []
-
-        time.sleep(0.5)
+            ticks = 0
+        time.sleep(0.1)
