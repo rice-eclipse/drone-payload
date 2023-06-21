@@ -31,6 +31,7 @@ while True:
     print("Photo captured")
     if "SensorTimestamp" in metadata.keys():
         capture_utc_micros = metadata["SensorTimestamp"] / 1000 + boot_utc_micros
+        print(f"Capture: {capture_utc_micros}")
     else:
         print("Could not find SensorTimestamp in metadata keys")
         capture_utc_micros = -1
