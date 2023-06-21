@@ -36,7 +36,7 @@ if __name__ == "__main__":
             photo_started = True
             proc = subprocess.Popen(["python3", str(Path(REPO_TOP, "src/main/photo_script.py")), str(seed)])
         data = pix_logging.get_vehicle_fields(vehicle)
-        data["Time"] = int(time.time() * 10e6)
+        data["Time"] = int(time.time() * 10e5)
         print(data["Time"])
         log_data.append(data)
         ticks += 1
@@ -44,5 +44,5 @@ if __name__ == "__main__":
             pix_logging.save_logs(datalog_file, log_data)
             data_id += 1
             ticks = 0
-            log_data = {}
+            log_data = []
         time.sleep(0.1)
