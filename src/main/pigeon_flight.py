@@ -38,7 +38,7 @@ if __name__ == "__main__":
         data = pix_logging.get_vehicle_fields(vehicle)
         data["Time"] = int(time.time() * 10e6)
         print(data["Time"])
-        log_data.append(pix_logging.get_vehicle_fields(vehicle))
+        log_data.append(data)
         ticks += 1
         if ticks >= 100:
             pix_logging.save_logs(datalog_file, log_data)
