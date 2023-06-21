@@ -1,5 +1,6 @@
 import time
 import os
+from pathlib import Path
 
 from libcamera import controls
 
@@ -67,7 +68,7 @@ for i in range(10):
         print("ERROR: expected lens position", i, "got", lp)
     print("Try AF cycle from lens position", i)
     result = picam2.autofocus_cycle()
-    state = picam2.capture_file(os.getcwd() / ("img_" + str(i) + ".png"), format="png")['AfState']
+    state = picam2.capture_file(Path(os.getcwd()) / ("img_" + str(i) + ".png"), format="png")['AfState']
     if result and state != controls.AfStateEnum.Focused:
         print("ERROR: AF cycle succeeded but incorrect state", state)
     if not result and state != controls.AfStateEnum.Failed:
