@@ -4,15 +4,12 @@ import random
 import os
 import subprocess
 from pathlib import Path
-import datetime
-import psutil
 
 REPO_TOP = Path(__file__).resolve().parent.parent.parent
 sys.path.append(os.path.join(REPO_TOP, "src/lib"))
 
 import signal_mgmt
 import pix_logging
-import config_vars
 
 if __name__ == "__main__":
     vehicle = signal_mgmt.init_vehicle()
@@ -22,7 +19,7 @@ if __name__ == "__main__":
     data_id = 100_000_000
     photo_started = False
 
-    data_dir = Path(os.getcwd()) / f"pigeon_data_{seed}"
+    data_dir = Path(REPO_TOP / f"pigeon_data_{seed}")
     os.mkdir(data_dir)
     log_data = []
 
