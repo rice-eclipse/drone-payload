@@ -43,6 +43,7 @@ while True:
         capture_ns = -1
     file = open(time_dir / f"time_{img_id}.txt", 'w')
     file.write(str(capture_ns))
+    file.write(f"\n{'Autofocus success' if cycle_result else 'Autofocus failure'}")
     print(f"CAPTURE ---- {capture_ns}")
     file.close()
     img_id += 1
