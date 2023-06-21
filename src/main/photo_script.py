@@ -12,7 +12,7 @@ sys.path.append(os.path.join(REPO_TOP, "src/lib"))
 seed = int(sys.argv[1])
 print(f"seed = {seed}")
 picam2 = Picamera2()
-picam2.set_controls({'AfMode': libcamera.controls.AfModeEnum.Manual})
+picam2.set_controls({'AfMode': libcamera.controls.AfModeEnum.Manual, 'LensPosition': 1.5})
 picam2.start()
 
 photo_dir = REPO_TOP / f"pigeon_img_{seed}"
