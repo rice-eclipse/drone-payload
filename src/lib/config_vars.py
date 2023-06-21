@@ -16,6 +16,7 @@ INPUT_PIN2 = 21
 CHANNEL_NUM = 8
 
 CAPTURE_TIMEOUT_MS = 5000
+UTC_MICROS_OFFSET = -21600000000 # -6 hours
 
 PHOTO_CMD = ["/usr/bin/libcamera-still", "--nopreview", f"--timeout={CAPTURE_TIMEOUT_MS}", "--autofocus-on-capture", "--flush", "-o"]
 # Logging field names

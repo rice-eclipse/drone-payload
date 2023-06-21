@@ -8,7 +8,12 @@ from pathlib import Path
 import datetime
 import psutil
 
-boot_utc_micros = int(datetime.datetime.utcfromtimestamp(psutil.boot_time()).timestamp() * 1e6)
+REPO_TOP = Path(__file__).resolve().parent.parent.parent
+sys.path.append(os.path.join(REPO_TOP, "src/lib"))
+
+import config_vars
+
+boot_utc_micros = int(datetime.datetime.utcfromtimestamp(psutil.boot_time()).timestamp() * 1e6) + config_vars.UTC_MICROS_OFFSET
 for _ in range(10):
     print(f"BOOT UTC {boot_utc_micros}")
 

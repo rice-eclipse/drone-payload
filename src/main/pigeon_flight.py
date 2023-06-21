@@ -12,7 +12,7 @@ sys.path.append(os.path.join(REPO_TOP, "src/lib"))
 
 import signal_mgmt
 import pix_logging
-import capturing
+import config_vars
 
 if __name__ == "__main__":
     vehicle = signal_mgmt.init_vehicle()
@@ -25,7 +25,7 @@ if __name__ == "__main__":
     data_dir = Path(os.getcwd()) / f"pigeon_data_{seed}"
     os.mkdir(data_dir)
     log_data = []
-    boot_utc_micros = int(datetime.datetime.utcfromtimestamp(psutil.boot_time()).timestamp() * 1e6)
+    boot_utc_micros = int(datetime.datetime.utcfromtimestamp(psutil.boot_time()).timestamp() * 1e6) + config_vars.UTC_MICROS_OFFSET
     print(f"boot utc micros {boot_utc_micros}")
 
     # Main drone software loop
