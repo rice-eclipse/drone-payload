@@ -33,7 +33,7 @@ while True:
     metadata = picam2.capture_file(photo_dir / ("img_" + str(img_id) + ".png"), format="png")
     print("Photo captured")
     if "SensorTimestamp" in metadata.keys():
-        capture_ns = metadata["SensorTimestamp"] + config_vars.CAMERA_NS_OFFSET
+        capture_ns = metadata["SensorTimestamp"]
         print(f"Capture: {capture_ns}")
     else:
         print("Could not find SensorTimestamp in metadata keys")
