@@ -19,7 +19,7 @@ sys.path.append(os.path.join(REPO_TOP, "src/lib"))
 seed = int(sys.argv[1])
 print(f"seed = {seed}")
 picam2 = Picamera2()
-picam2.set_controls({"AfMode": libcamera.controls.AfModeEnum.Continuous})
+# picam2.set_controls({"AfMode": libcamera.controls.AfModeEnum.Continuous})
 picam2.start()
 
 photo_dir = REPO_TOP / f"pigeon_img_{seed}"
@@ -30,6 +30,7 @@ os.mkdir(time_dir)
 img_id = 100_000_000
 while True:
     time.sleep(3)
+    picam2.autofocus_cycle()
     metadata = picam2.capture_file(photo_dir / ("img_" + str(img_id) + ".png"), format="png")
     print("Photo captured")
     if "SensorTimestamp" in metadata.keys():
