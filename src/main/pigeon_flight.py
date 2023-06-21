@@ -42,6 +42,7 @@ if __name__ == "__main__":
         ticks += 1
         if ticks >= 100:
             pix_logging.save_logs(datalog_file, log_data)
+            data_id += 1
             ticks = 0
-            log_data = []
+            log_data = {}
         time.sleep(0.1)
