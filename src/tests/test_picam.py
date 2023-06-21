@@ -11,7 +11,7 @@ def test_sig(future):
     print(f"----SIGNAL END, RUNNING = {running}----")
 
 picam2 = Picamera2()
-picam2.set_controls({"AfMode": libcamera.controls.AfModeEnum.Continuous})
+picam2.set_controls({"AfMode": libcamera.controls.AfModeEnum.Continuous, "AfTrigger":1})
 picam2.start()
 
 print("job 1")
