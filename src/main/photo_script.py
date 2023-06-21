@@ -13,10 +13,6 @@ sys.path.append(os.path.join(REPO_TOP, "src/lib"))
 
 import config_vars
 
-boot_utc_micros = int(datetime.datetime.utcfromtimestamp(psutil.boot_time()).timestamp() * 1e6) + config_vars.UTC_MICROS_OFFSET
-for _ in range(10):
-    print(f"BOOT UTC {boot_utc_micros}")
-
 REPO_TOP = Path(__file__).resolve().parent.parent.parent
 sys.path.append(os.path.join(REPO_TOP, "src/lib"))
 
@@ -37,7 +33,7 @@ while True:
     metadata = picam2.capture_file(photo_dir / ("img_" + str(img_id) + ".png"), format="png")
     print("Photo captured")
     if "SensorTimestamp" in metadata.keys():
-        capture_ns = metadata["SensorTimestamp"]
+        capture_ns = metadata["SensorTimestamp"] + config_vars.CAMERA_NS_OFFSET
         print(f"Capture: {capture_ns}")
     else:
         print("Could not find SensorTimestamp in metadata keys")
