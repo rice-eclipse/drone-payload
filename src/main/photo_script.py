@@ -23,10 +23,18 @@ os.mkdir(time_dir)
 img_id = 100_000_000
 while True:
     time.sleep(3)
-    if picam2.autofocus_cycle() != libcamera.controls.AfStateEnum.Focused:
-        print(f"Autofocus Failed: {img_id}")
+    cycle_result = picam2.autofocus_cycle()
     metadata = picam2.capture_file(photo_dir / ("img_" + str(img_id) + ".png"), format="png")
+    state = metadata['AfState']
     print("Photo captured")
+    print(f"Cycle success: {cycle_result}")
+    if state == libcamera.controls.AfStateEnum.Focused:
+        print("capture focused!")
+    elif state == libcamera.controls.AfStateEnum.Failed:
+        print("capture failed")
+    else:
+        print(f"wack capture state: {state}")
+
     if "SensorTimestamp" in metadata.keys():
         capture_ns = metadata["SensorTimestamp"]
         print(f"Capture: {capture_ns}")
