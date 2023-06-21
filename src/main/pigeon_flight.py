@@ -25,8 +25,6 @@ if __name__ == "__main__":
     data_dir = Path(os.getcwd()) / f"pigeon_data_{seed}"
     os.mkdir(data_dir)
     log_data = []
-    boot_utc_micros = int(datetime.datetime.utcfromtimestamp(psutil.boot_time()).timestamp() * 1e6) + config_vars.UTC_MICROS_OFFSET
-    print(f"boot utc micros {boot_utc_micros}")
 
     # Main drone software loop
     ticks = 0
@@ -36,6 +34,7 @@ if __name__ == "__main__":
             photo_started = True
             proc = subprocess.Popen(["python3", str(Path(REPO_TOP, "src/main/photo_script.py")), str(seed)])
         data = pix_logging.get_vehicle_fields(vehicle)
+        print(f"LOGGING --- {data['Time']}")
         log_data.append(data)
         ticks += 1
         if ticks >= 100:

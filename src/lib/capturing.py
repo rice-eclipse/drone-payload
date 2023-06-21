@@ -28,8 +28,6 @@ class Camera:
         self.camera.set_controls({"AfMode": libcamera.controls.AfModeEnum.Continuous})
         self.camera.start()
         self.proc_running = False
-        self._job = None
-        self.boot_utc_micros = int(datetime.datetime.utcfromtimestamp(psutil.boot_time()).timestamp() * 1e6)
 
     def take_photo(self, path: os.PathLike):
         '''
@@ -43,11 +41,11 @@ class Camera:
             print("Getting result")
             metadata = self._job.get_result()
             if "SensorTimestamp" in metadata.keys():
-                capture_utc_micros = metadata["SensorTimestamp"] / 1000 + self.boot_utc_micros
+                capture_ns = metadata["SensorTimestamp"]
             else:
                 print("Could not find SensorTimestamp in metadata keys")
-                capture_utc_micros = -1
-            return metadata, capture_utc_micros
+                capture_ns = -1
+            return metadata, capture_ns
         else:
             raise Exception("Job still running")
     

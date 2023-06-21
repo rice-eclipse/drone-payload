@@ -15,7 +15,7 @@ def get_vehicle_fields(vehicle):
     data['Velocity'] = vehicle.velocity
     data['GPS'] = vehicle.gps_0
     data['Heading'] = vehicle.heading
-    data["Time"] = int(time.time() * 10e5)
+    data["Time"] = time.monotonic_ns()
     return data
 
 
