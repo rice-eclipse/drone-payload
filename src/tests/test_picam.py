@@ -20,7 +20,7 @@ running = True
 job = picam2.capture_file("test.jpg", wait=False, signal_function=test_sig)
 while running:
     print("running!")
-    time.sleep(0.5)
+    time.sleep(0.01)
 print("job1:", job.get_result())
 
 print("job 2")
@@ -29,7 +29,7 @@ running = True
 job = picam2.capture_file("test2.jpg", wait=False, signal_function=test_sig)
 while running:
     print("running!")
-    time.sleep(0.5)
+    time.sleep(0.01)
 print("job 2 finished capture")
 print(job.get_result())
 picam2.close()
