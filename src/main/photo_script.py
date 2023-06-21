@@ -1,17 +1,10 @@
 
 import time
-import libcamera
 import sys
 import os
 from picamera2 import Picamera2
+import libcamera
 from pathlib import Path
-import datetime
-import psutil
-
-REPO_TOP = Path(__file__).resolve().parent.parent.parent
-sys.path.append(os.path.join(REPO_TOP, "src/lib"))
-
-import config_vars
 
 REPO_TOP = Path(__file__).resolve().parent.parent.parent
 sys.path.append(os.path.join(REPO_TOP, "src/lib"))
@@ -30,7 +23,8 @@ os.mkdir(time_dir)
 img_id = 100_000_000
 while True:
     time.sleep(3)
-    picam2.autofocus_cycle()
+    if picam2.autofocus_cycle() != libcamera.controls.AfStateEnum.Focused:
+        print(f"Autofocus Failed: {img_id}")
     metadata = picam2.capture_file(photo_dir / ("img_" + str(img_id) + ".png"), format="png")
     print("Photo captured")
     if "SensorTimestamp" in metadata.keys():
