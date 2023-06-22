@@ -14,6 +14,8 @@ import cv2
 import numpy as np
 from pathlib import Path
 
+REPO_TOP = Path(__file__).resolve().parent.parent.parent
+DATA_DIR = REPO_TOP / "src/data"
 sys.path.append("../lib")
 
 import capturing
@@ -33,36 +35,32 @@ def main(cmd_args: List[str]) -> None:
     args = _parse_args(cmd_args)
 
     # Taking the specified number of photos
-    chessboard_imgs = capturing.chessboard_images(args.samples)
-    objpoints = [img.objp for img in chessboard_imgs]
-    points = [img.corners for img in chessboard_imgs]
-    imgs = [img.image for img in chessboard_imgs]
-    print(objpoints, points, imgs)
+    cbimg = capturing.ChessboardImage(str(DATA_DIR / "chessboard.png"))
+    objpoints = cbimg.objp
+    points = cbimg.corners
+    img = cbimg.image
+    print(objpoints, points, img)
 
     # Generate calibration matrices
     input("Press enter to begin calibration with data :)")
     # Returns camera matrix, distortion coeffs, rotation and translation vectors to 3D space
     _, mtx, dist, rvecs, tvecs = cv2.calibrateCamera(
-        objpoints, points, imgs[0].shape[::-1], None, None)
-    h, w = imgs[0].shape[:2]
+        [objpoints], [points], img.shape[::-1], None, None)
+    h, w = img.shape[:2]
     newcameramtx, roi = cv2.getOptimalNewCameraMatrix(
         mtx, dist, (w, h), config_vars.ROI_SCALING, (w, h))
     print(f"Camera matrix:\n{mtx}\nNew Camera Matrix:\n{newcameramtx}")
 
     # Undistorts the images, saves results
-    undistorted_images = []
-    for i in range(len(imgs)):
-        result_path = Path(os.getcwd()) / f'calib_result_{i}.png'
-        undistorted_images.append(undistort_img(mtx, dist, newcameramtx, imgs[i], roi))
-        print(f"Undistorted Image {i} saved as {result_path}")
+    result_path = DATA_DIR / 'calib_result.png'
+    undistort_img(mtx, dist, newcameramtx, img, roi, str(result_path))
+    print(f"Undistorted Image saved as {result_path}")
 
     # Finds the corners of the chessboard in each undistorted image
-    undistorted_corners = []
-    for img in undistorted_images:
-        found, corners = cv2.findChessboardCorners(
-            img, config_vars.CHESSBOARD_DIMS, None)
-        undistorted_corners.append(corners if found else None)
-    print(f"Undistorted corners:\n{undistorted_corners}")
+    found, corners = cv2.findChessboardCorners(img, config_vars.CHESSBOARD_DIMS, None)
+    if not found:
+        raise Exception(f"Not found:\n{corners}")
+    print(f"Undistorted corners:\n{corners}")
 
     # Saves the calibration result for future 3D referencing
     save_path = Path(os.getcwd()) / "camera_matrices.npz"
@@ -72,16 +70,15 @@ def main(cmd_args: List[str]) -> None:
         f"Camera calibrated specs: camera_matrix, new_camera_matrix, distortion, roi at {save_path}")
     
     # Displaying Accuracy
-    mean_error = 0
-    for i in range(len(objpoints)):
-        imgpoints2, _ = cv2.projectPoints(objpoints[i], rvecs[i], tvecs[i], mtx, dist)
-        error = cv2.norm(points[i], imgpoints2, cv2.NORM_L2)/len(imgpoints2)
-        mean_error += error
-    print(f"Mean projection estimate error (cm): {mean_error/len(objpoints)}")
+    print(rvecs)
+    imgpoints2, _ = cv2.projectPoints(objpoints, rvecs[0], tvecs[0], mtx, dist)
+    error = cv2.norm(points, imgpoints2, cv2.NORM_L2)
+    print(f"Mean projection estimate error (cm): {error}")
     
     _confirm_perspective()
     # Perspective Calibration
-    thetas, phis = capturing.calibrate_perspective(undistorted_corners, [img.size[::-1] for img in undistorted_images])
+    thetas, phis = capturing.calibrate_perspective(capturing.ChessboardImage(result_path))
+    print(thetas)
     save_path = Path(os.getcwd()) / "perspective_matrices.npz"
     np.savez(save_path, thetas=thetas, phis=phis)
 

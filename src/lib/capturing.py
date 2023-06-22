@@ -1,20 +1,18 @@
 import os
-import subprocess
 import cv2
 import numpy as np
 import random
 import math
-from typing import List, Dict, Any, Tuple
-import datetime
-import psutil
+from typing import List
 from pathlib import Path
-import libcamera
-from picamera2 import Picamera2
+
+REPO_TOP = Path(__file__).resolve().parent.parent.parent
 
 import config_vars
 
 class ChessboardImage:
     def __init__(self, filename: os.PathLike):
+        filename = str(filename)
         self.image = cv2.cvtColor(cv2.imread(filename), cv2.COLOR_BGR2GRAY)
         found, self.corners = cv2.findChessboardCorners(
             self.image, config_vars.CHESSBOARD_DIMS, None
@@ -56,27 +54,28 @@ class Camera:
     def _photo_complete(self, job):
         self.proc_running = False
 
-def chessboard_images(n_samples: int) -> List[ChessboardImage]:
-    result = []
-    picam2 = Picamera2()
-    picam2.start()
-    picam2.set_controls({'AfMode': libcamera.controls.AfModeEnum.Manual, 'LensPosition': 1.5})
-    for img_idx in range(n_samples):
-        input(f"({img_idx + 1}) Press enter to capture calibration image")
-        filename = str(Path(os.getcwd()) / f"calibration_img_{img_idx + 1}.png")
-        cycle_result = picam2.autofocus_cycle()
-        if cycle_result: print("Error: autofocus failure")
-        metadata = picam2.capture_file(filename, format="png")
-        result.append(ChessboardImage(filename))
-        print(
-            f"Img Dims:\n{result[-1].image.shape}\nPoints:\n{result[-1].corners}\nObjPoints (cm):\n{result[-1].objp}"
-        )
-    return result
+# def chessboard_images(n_samples: int) -> List[ChessboardImage]:
+#     result = []
+#     picam2 = Picamera2()
+#     picam2.start()
+#     picam2.set_controls({'AfMode': libcamera.controls.AfModeEnum.Manual, 'LensPosition': 1.5})
+#     for img_idx in range(n_samples):
+#         input(f"({img_idx + 1}) Press enter to capture calibration image")
+#         filename = str(Path(os.getcwd()) / f"calibration_img_{img_idx + 1}.png")
+#         cycle_result = picam2.autofocus_cycle()
+#         if cycle_result: print("Error: autofocus failure")
+#         metadata = picam2.capture_file(filename, format="png")
+#         result.append(ChessboardImage(filename))
+#         print(
+#             f"Img Dims:\n{result[-1].image.shape}\nPoints:\n{result[-1].corners}\nObjPoints (cm):\n{result[-1].objp}"
+#         )
+#     return result
 
 def calibrate_perspective(chess_image: ChessboardImage) -> List[np.ndarray]:
     print("Calibrating perspective...")
     print(f"Corners (x{len(chess_image.corners)}):\n {chess_image.corners}")
 
+    print(chess_image.objp)
     chess_image.objp[:, 0] -= max(chess_image.objp[:, 0])/2
     chess_image.objp[:, 1] -= max(chess_image.objp[:, 1])/2
     chess_image.objp[:, :2] *= config_vars.CHESSBOARD_SQUARE_LENGTH_CM

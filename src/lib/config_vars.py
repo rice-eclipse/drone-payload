@@ -28,8 +28,8 @@ LOGGING_FIELD_NAMES = ['Time', 'Global Location', 'Local Location',
 ROI_SCALING = 1
 
 CHESSBOARD_DIMS = (7, 7) # Internal corners
-CALIB_CAMERA_DISTANCE_CM = 20 # Distance from the camera to the chessboard (cm)
-CHESSBOARD_SQUARE_LENGTH_CM = 2 # Length of each chessboard square
+CALIB_CAMERA_DISTANCE_CM = 59 # Distance from the camera to the chessboard (cm)
+CHESSBOARD_SQUARE_LENGTH_CM = 2.5875 # Length of each chessboard square
 
 PX_DISTANCE_EST_SEED = 42
 PX_DISTANCE_EST_TRIALS = 50
