@@ -63,7 +63,7 @@ def chessboard_images(n_samples: int) -> List[ChessboardImage]:
     picam2.set_controls({'AfMode': libcamera.controls.AfModeEnum.Manual, 'LensPosition': 1.5})
     for img_idx in range(n_samples):
         input(f"({img_idx + 1}) Press enter to capture calibration image")
-        filename = (Path(os.getcwd()) / f"calibration_img_{img_idx + 1}.jpg")
+        filename = str(Path(os.getcwd()) / f"calibration_img_{img_idx + 1}.png")
         cycle_result = picam2.autofocus_cycle()
         if cycle_result: print("Error: autofocus failure")
         metadata = picam2.capture_file(filename, format="png")
