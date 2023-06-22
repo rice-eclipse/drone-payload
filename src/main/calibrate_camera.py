@@ -12,6 +12,7 @@ from typing import List
 import argparse
 import cv2
 import numpy as np
+from pathlib import Path
 
 sys.path.append("../lib")
 
@@ -51,7 +52,7 @@ def main(cmd_args: List[str]) -> None:
     # Undistorts the images, saves results
     undistorted_images = []
     for i in range(len(imgs)):
-        result_path = os.getcwd() / f'calib_result_{i}.png'
+        result_path = Path(os.getcwd()) / f'calib_result_{i}.png'
         undistorted_images.append(undistort_img(mtx, dist, newcameramtx, imgs[i], roi))
         print(f"Undistorted Image {i} saved as {result_path}")
 
@@ -64,7 +65,7 @@ def main(cmd_args: List[str]) -> None:
     print(f"Undistorted corners:\n{undistorted_corners}")
 
     # Saves the calibration result for future 3D referencing
-    save_path = os.getcwd() / "camera_matrices.npz"
+    save_path = Path(os.getcwd()) / "camera_matrices.npz"
     np.savez(save_path, camera_matrix=mtx,
              new_camera_matrix=newcameramtx, distortion=dist, roi=roi)
     print(
@@ -81,7 +82,7 @@ def main(cmd_args: List[str]) -> None:
     _confirm_perspective()
     # Perspective Calibration
     thetas, phis = capturing.calibrate_perspective(undistorted_corners, [img.size[::-1] for img in undistorted_images])
-    save_path = os.getcwd() / "perspective_matrices.npz"
+    save_path = Path(os.getcwd()) / "perspective_matrices.npz"
     np.savez(save_path, thetas=thetas, phis=phis)
 
 
