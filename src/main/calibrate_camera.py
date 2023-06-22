@@ -36,6 +36,7 @@ def main(cmd_args: List[str]) -> None:
     objpoints = [img.objp for img in chessboard_imgs]
     points = [img.corners for img in chessboard_imgs]
     imgs = [img.image for img in chessboard_imgs]
+    print(objpoints, points, imgs)
 
     # Generate calibration matrices
     input("Press enter to begin calibration with data :)")

@@ -8,7 +8,7 @@ from typing import List, Dict, Any, Tuple
 import datetime
 import psutil
 import libcamera
-import picamera2
+from picamera2 import Picamera2
 
 import config_vars
 
@@ -60,8 +60,12 @@ def chessboard_images(n_samples: int) -> List[ChessboardImage]:
     for img_idx in range(n_samples):
         input(f"({img_idx + 1}) Press enter to capture calibration image")
         filename = (os.getcwd() / f"calibration_img_{img_idx + 1}.jpg")
-        camera_process = subprocess.Popen(["libcamera-still", "-o", filename])
-        camera_process.wait()
+        picam2 = Picamera2()
+        picam2.start()
+        picam2.set_controls({'AfMode': libcamera.controls.AfModeEnum.Manual, 'LensPosition': 1.5})
+        cycle_result = picam2.autofocus_cycle()
+        if cycle_result: print("Error: autofocus failure")
+        metadata = picam2.capture_file(filename, format="png")
         result.append(ChessboardImage(filename))
         print(
             f"Img Dims:\n{result[-1].image.shape}\nPoints:\n{result[-1].corners}\nObjPoints (cm):\n{result[-1].objp}"
