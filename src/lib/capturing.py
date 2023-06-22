@@ -7,6 +7,7 @@ import math
 from typing import List, Dict, Any, Tuple
 import datetime
 import psutil
+from pathlib import Path
 import libcamera
 from picamera2 import Picamera2
 
@@ -59,7 +60,7 @@ def chessboard_images(n_samples: int) -> List[ChessboardImage]:
     result = []
     for img_idx in range(n_samples):
         input(f"({img_idx + 1}) Press enter to capture calibration image")
-        filename = (os.getcwd() / f"calibration_img_{img_idx + 1}.jpg")
+        filename = (Path(os.getcwd()) / f"calibration_img_{img_idx + 1}.jpg")
         picam2 = Picamera2()
         picam2.start()
         picam2.set_controls({'AfMode': libcamera.controls.AfModeEnum.Manual, 'LensPosition': 1.5})
